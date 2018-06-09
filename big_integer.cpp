@@ -42,7 +42,7 @@ big_integer::big_integer(bool new_sign, ui_vector const &new_data) : sign(new_si
 	make_correct();
 }
 
-void big_integer::copy(big_integer &other) noexcept {
+void big_integer::swap(big_integer &other) noexcept {
 	data.swap(other.data);
 	std::swap(sign, other.sign);
 }
@@ -82,7 +82,7 @@ big_integer::big_integer(std::string const& str) : big_integer(string_to_big_int
 
 big_integer& big_integer::operator=(big_integer const& other) {
 	big_integer temp(other);
-	copy(temp);
+	swap(temp);
 	return *this;
 }
 

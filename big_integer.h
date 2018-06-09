@@ -15,7 +15,7 @@ struct big_integer
 
 	big_integer& operator=(big_integer const& other);
 
-	void copy(big_integer &other) noexcept;
+	void swap(big_integer &other) noexcept;
 
 	big_integer& operator+=(big_integer const& rhs);
 	big_integer& operator-=(big_integer const& rhs);
@@ -113,5 +113,4 @@ bool operator==(big_integer const& a, big_integer const& b);
 std::pair<big_integer, big_integer> longdivide(big_integer const & x, big_integer const & y);
 bool cmp_prefix(big_integer& r, big_integer& dq, size_t k, size_t m);
 void difference(big_integer& r, big_integer & dq, size_t k, size_t m);
-std::pair<big_integer, big_integer> division(big_integer a, big_integer const& b);
 #endif

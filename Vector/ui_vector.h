@@ -20,8 +20,9 @@ struct ui_vector{
 	void make_unique();
 
 private:
-	const void* get_ptr()const ;
-	void make_big(size_t cap, unsigned int* d = nullptr);
+	const unsigned int* get_ptr()const;
+	unsigned int* get_ptr();
+	void make_big(size_t cap, unsigned int* d);
 	void swap_big_small(ui_vector& a, ui_vector& b);
 	static const size_t SMALL_DATA_SIZE = 4;
 	static const size_t CAPACITY_FACT = 2;
