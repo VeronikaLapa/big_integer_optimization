@@ -35,12 +35,7 @@ void ui_vector::make_unique() {
 }
 ui_vector::ui_vector() : length(0), is_big(false){}
 
-ui_vector::~ui_vector() {
-	if (is_big) {
-		data.big_data.~big_vector();
-	}
-
-}
+ui_vector::~ui_vector() {}
 
 ui_vector::ui_vector(ui_vector const& other) : is_big(other.is_big), length(other.length){
 	if (is_big) {
@@ -128,7 +123,7 @@ void ui_vector::swap_big_small(ui_vector& a, ui_vector& b) {
 	unsigned int temp[SMALL_DATA_SIZE];
 	copy(b.data.small_data, b.data.small_data + SMALL_DATA_SIZE, temp);
 	new (&b.data.big_data) big_vector(a.data.big_data);
-	a.data.big_data.~big_vector();
+	//a.data.big_data.~big_vector();
 	copy(temp, temp+ SMALL_DATA_SIZE, a.data.small_data);
 }
 void ui_vector::swap(ui_vector& other) {
