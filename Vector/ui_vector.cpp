@@ -119,6 +119,9 @@ void  ui_vector::resize(size_t newsize) {
 	length = newsize;
 }
 bool operator==(ui_vector const& a, ui_vector const& b) {
+	if (a.length != b.length) {
+		return false;
+	}
 	return (memcmp(a.get_ptr(), b.get_ptr(), a.length * sizeof(unsigned int)) == 0);
 }
 void ui_vector::swap_big_small(ui_vector& a, ui_vector& b) {
