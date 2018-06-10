@@ -122,7 +122,7 @@ bool operator==(ui_vector const& a, ui_vector const& b) {
 	if (a.length != b.length) {
 		return false;
 	}
-	return (memcmp(a.get_ptr(), b.get_ptr(), a.length * sizeof(unsigned int)) == 0);
+	return (equal(a.get_ptr(), a.get_ptr() + a.length, b.get_ptr()));
 }
 void ui_vector::swap_big_small(ui_vector& a, ui_vector& b) {
 	unsigned int temp[SMALL_DATA_SIZE];
