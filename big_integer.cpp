@@ -111,8 +111,11 @@ bool operator<(big_integer const& a, big_integer const& b) {
 	}
 	size_t i = 0;
 	while (i < a.length()) {
-		if (a.get_digit(i) < b.get_digit(i)) {
+		if (a.get_digit(a.length() - i - 1) < b.get_digit(a.length() - i - 1)) {
 			return true;
+		}
+		if (a.get_digit(a.length() - i - 1) > b.get_digit(a.length() - i - 1)) {
+			return false;
 		}
 		i++;
 	}
@@ -184,20 +187,34 @@ big_integer abs(big_integer const& a) {
 
 
 big_integer operator<<(big_integer a, int b) {
-	ui_vector res(a.length() + 1);
+	unsigned int c = b % 32;
+	unsigned int d = b / 32;
+	ui_vector res(a.length() + 1 + d);
 	unsigned int carry = 0;
-	for (size_t i = 0; i < a.length() + 1; i++) {
-		res[i] = (a.get_digit(i) << b) + carry;
-		carry = (a.get_digit(i) >> (BASE - b));
+	for (int i = 0; i < d; i++) {
+		res[i] = 0;
+	}
+	if (c != 0) {
+		for (size_t i = 0; i < a.length() + 1; i++) {
+			res[i + d] = (a.get_digit(i) << c) + carry;
+			carry = (a.get_digit(i) >> (BASE - c));
+		}
+	}
+	else {
+		for (size_t i = 0; i < a.length() + 1; i++) {
+			res[i + d] = (a.get_digit(i) << c);
+		}
 	}
 	//res[a.length()] = carry;
 	return big_integer(a.sign, res);
 }
 big_integer operator>>(big_integer a, int b) {
-	ui_vector res(a.length());
-
-	for (size_t i = 0; i < a.length(); i++) {
-		res[i] = (a.get_digit(i) >> b) | (a.get_digit(i + 1) << (BASE - b));
+	unsigned int c = b / BASE;
+	unsigned int d = b % BASE;
+	ui_vector res(a.length() - c + 1);
+	unsigned int carry = 0;
+	for (size_t i = c; i < a.length() + 1; i++) {
+		res[i - c] = (a.get_digit(i) >> d) | (a.get_digit(i + 1) << (BASE - d));
 	}
 	return big_integer(a.sign, res);
 }
@@ -272,7 +289,7 @@ big_integer operator*(big_integer a, big_integer const& b) {
 	big_integer abs_b = abs(b);
 	for (size_t i = 0; i < abs_b.length(); i++) {
 		//res.data.insert(res.data.begin(), 0);
-		res = ((res << 1) << 31);
+		res = res << 32;
 		res += mul_big_short(abs_a, abs_b.get_digit(abs_b.length() - 1 - i));
 	}
 	if (a.sign ^ b.sign) return -res;
